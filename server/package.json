@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "fast-json-stringify": "^1.9.2",
+    "mariadb": "^2.0.2-rc"
+  }
+}
