@@ -27,7 +27,7 @@
       ></DatePicker>
     </FormItem>
 
-    <FormItem
+    <!-- <FormItem
       label="电子围栏"
       style="margin:2px 2px;"
     >
@@ -38,8 +38,8 @@
         <span slot="open">开启</span>
         <span slot="close">关闭</span>
       </i-switch>
-    </FormItem>
-    <FormItem
+    </FormItem> -->
+    <!-- <FormItem
       label="播放速度"
       style="margin:2px 2px;"
     >
@@ -52,20 +52,22 @@
         :min=1
         :max=10
       ></Slider>
-    </FormItem>
-    <div style="margin:0 0 5px 0;text-align: center;">
+    </FormItem> -->
+    <div style="margin:5px 0 5px 0;text-align: center;">
       <Button
         type="primary"
         size="small"
         ghost
+        @click="select"
       >查询</Button>
       <Button
-        style="margin-left: 10px"
+        style="margin-left: 20px"
         type="error"
         size="small"
         ghost
+        @click="clear"
       >清除</Button>
-      <Button
+      <!-- <Button
         style="margin-left: 40px"
         type="success"
         size="small"
@@ -76,7 +78,7 @@
         type="warning"
         size="small"
         ghost
-      >暂停</Button>
+      >暂停</Button> -->
     </div>
   </Form>
 </template>
@@ -85,17 +87,19 @@ export default {
   data() {
     return {
       formItem: {
-        input: "",
-        select: "",
-        radio: "male",
-        checkbox: [],
-        switch: true,
+        // checkbox: [],
+        // switch: true,
         datetime: { start: "", end: "" },
-        time: "",
-        slider: 1,
-        textarea: ""
-      }
+        slider: 1
+      },
+      trackData: [""]
     };
+  },
+  methods: {
+    select() {},
+    clear() {
+      this.trackData = [""];
+    }
   }
 };
 </script>

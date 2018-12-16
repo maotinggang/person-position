@@ -2,9 +2,11 @@
   <div>
     <baidu-map
       class="bm-view"
+      :style="{paddingRight: paddingRight}"
       :center="center"
       :zoom="zoom"
       :scroll-wheel-zoom="true"
+      :continuous-zoom="true"
     >
       <bm-map-type
         :map-types="['BMAP_NORMAL_MAP', 'BMAP_HYBRID_MAP']"
@@ -23,10 +25,16 @@
 
 <script>
 export default {
+  props: {
+    paddingRight: {
+      type: String,
+      default: "0px"
+    }
+  },
   data() {
     return {
       center: { lng: 116.404, lat: 39.915 },
-      zoom: 12
+      zoom: 16
     };
   }
 };
@@ -36,7 +44,8 @@ export default {
 .bm-view {
   position: fixed;
   width: 100%;
-  height: 100%;
-  padding: 63px 299px 0px 199px;
+  top: 63px;
+  bottom: 0;
+  padding-left: 198px;
 }
 </style>

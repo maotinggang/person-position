@@ -1,6 +1,6 @@
 # http
 
-> person position http server
+> person position
 
 ## About
 

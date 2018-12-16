@@ -1,6 +1,6 @@
 {
   "name": "http",
-  "description": "person position http server",
+  "description": "person position",
   "version": "0.0.0",
   "homepage": "",
   "main": "src",
@@ -36,7 +36,10 @@
     "@feathersjs/socketio": "^3.2.7",
     "compression": "^1.7.3",
     "cors": "^2.8.5",
+    "feathers-knex": "^4.0.0",
     "helmet": "^3.15.0",
+    "knex": "^0.15.2",
+    "mysql2": "^1.6.1",
     "serve-favicon": "^2.5.0",
     "winston": "^3.0.0"
   },

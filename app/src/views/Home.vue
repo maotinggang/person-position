@@ -1,7 +1,6 @@
 <template>
   <div class="layout">
     <Layout>
-      <baidu></baidu>
       <Header class="layout-header">
         <menu-all></menu-all>
       </Header>
@@ -18,33 +17,21 @@
             <list></list>
           </Card>
         </Sider>
-        <Sider
-          :style="{right: 0}"
-          class="layout-sider"
-          :width=300
-        >
-          <Card
-            :padding=0
-            :bordered=false
-          >
-            <p slot="title">轨迹查询</p>
-            <record></record>
-          </Card>
-        </Sider>
+        <Content class="layout-content2">
+          <keep-alive>
+            <router-view></router-view>
+          </keep-alive>
+        </Content>
       </Layout>
     </Layout>
   </div>
 </template>
 <script>
-import Baidu from "@/components/map";
 import List from "@/components/list";
-import Record from "@/components/record";
 import MenuAll from "@/components/menu";
 export default {
   components: {
-    Baidu,
     List,
-    Record,
     MenuAll
   }
 };
@@ -70,10 +57,13 @@ export default {
   position: relative;
   top: 64px;
 }
+.layout-content2 {
+  padding: 0 0 0 200px;
+}
 .layout-header {
   position: fixed;
-  background-color: rgb(133, 241, 245);
+  background-color: white;
   width: 100%;
-  padding: 0 10px;
+  padding: 0;
 }
 </style>
