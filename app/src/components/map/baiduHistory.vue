@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import { EventBus } from "@/event";
+import { EventBus } from "@/lib/event";
 export default {
   props: {
     paddingRight: {

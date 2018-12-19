@@ -86,7 +86,7 @@
 </template>
 <script>
 import feathersClient from "@/api/feathersClient";
-import { EventBus } from "@/event";
+import { EventBus } from "@/lib/event";
 import { mapMutations } from "vuex";
 import dateTime from "date-time";
 export default {

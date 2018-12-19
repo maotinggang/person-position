@@ -73,7 +73,7 @@
 <script>
 import collection from "lodash/collection";
 import dateTime from "date-time";
-import { EventBus } from "@/event";
+import { EventBus } from "@/lib/event";
 import feathersClient from "@/api/feathersClient";
 export default {
   props: {

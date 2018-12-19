@@ -18,7 +18,7 @@
 <script>
 import feathersClient from "@/api/feathersClient";
 import { mapMutations } from "vuex";
-import { EventBus } from "@/event";
+import { EventBus } from "@/lib/event";
 export default {
   data() {
     return {

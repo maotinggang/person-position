@@ -11,7 +11,7 @@
 <script>
 import expandRow from "./expand.vue";
 import dateTime from "date-time";
-import { EventBus } from "@/event";
+import { EventBus } from "@/lib/event";
 import collection from "lodash/collection";
 export default {
   components: { expandRow },
