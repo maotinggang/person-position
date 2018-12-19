@@ -19,5 +19,11 @@
     "call": true,
     "info": true,
     "print": true
+  },
+  "mariadb": {
+    "host": "localhost",
+    "user": "microgram",
+    "password": "microgram",
+    "connectionLimit": 10
   }
 }
