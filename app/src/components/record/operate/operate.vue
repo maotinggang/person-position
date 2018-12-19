@@ -82,11 +82,6 @@
       >暂停</Button> -->
       </div>
     </Form>
-    <Spin
-      size="large"
-      fix
-      v-if="loading"
-    ></Spin>
   </div>
 </template>
 <script>
@@ -103,9 +98,14 @@ export default {
         datetime: { start: "", end: "" },
         slider: 1
       },
-      trackData: [],
-      loading: false
+      trackData: []
     };
+  },
+  mounted() {
+    this.$Message.config({
+      top: 64,
+      duration: 3
+    });
   },
   methods: {
     ...mapMutations(["getHistoryList", "clearHistoryList"]),
@@ -120,44 +120,63 @@ export default {
       } else if (checked.length > 1) {
         this.$Message.error({
           content: "暂不支持多个设备查询",
-          duration: 3,
           closable: true
         });
       } else {
-        feathersClient
-          .service("position")
-          .find({
-            query: {
-              id: checked[0].id,
-              time: {
-                $lte: dateTime({ date: new Date(this.formItem.datetime.end) }),
-                $gte: dateTime({ date: new Date(this.formItem.datetime.start) })
-              }
-            }
-          })
-          .then(res => {
-            this.loading = false;
-            this.getHistoryList(res.data);
-            EventBus.$emit("history-clear", true);
-            this.$Message.success({
-              content: "查询轨迹成功",
-              duration: 3,
-              closable: true
-            });
-          })
-          .catch(err => {
-            this.loading = false;
-            this.$Message.error({
-              content: "查询轨迹失败" + err,
-              duration: 0,
-              closable: true
-            });
-          });
+        this.clear();
+        let id = checked[0].id;
+        //按时间10分钟进行分段查询，防止一次数据量过大
+        let intervalTime = 10 * 60 * 1000;
+        let startTime = new Date(this.formItem.datetime.start);
+        let endTime = new Date(this.formItem.datetime.end);
+        let startMill = startTime.getTime();
+        let endMill = endTime.getTime();
+        let count = Math.ceil((endMill - startMill) / intervalTime);
+        for (let index = 0; index < count; index++) {
+          let start = startMill + index * intervalTime;
+          let end = startMill + (index + 1) * intervalTime;
+          if (index == count - 1) {
+            end = endMill;
+          }
+          start = dateTime({ date: new Date(start) });
+          end = dateTime({ date: new Date(end) });
+          this.getPosition(id, start, end);
+        }
+        this.$Message.loading({
+          content: "查询轨迹中...",
+          closable: true
+        });
       }
     },
     clear() {
       this.clearHistoryList();
-      EventBus.$emit("history-clear", false);
+      EventBus.$emit("history-clear");
+    },
+    getPosition(id, start, end) {
+      feathersClient
+        .service("position")
+        .find({
+          query: {
+            id: id,
+            $sort: {
+              time: -1
+            },
+            time: {
+              $lte: end,
+              $gte: start
+            }
+          }
+        })
+        .then(res => {
+          this.getHistoryList(res.data);
+        })
+        .catch(err => {
+          this.loading = false;
+          this.$Message.error({
+            content: "查询轨迹失败" + err,
+            closable: true
+          });
+        });
     }
   }
 };

@@ -28,7 +28,8 @@ export default {
   components: {
     List,
     MenuAll
-  }
+  },
+  mounted() {}
 };
 </script>
 <style scoped>

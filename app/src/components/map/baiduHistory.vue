@@ -37,17 +37,17 @@
       </bm-marker>
       <bm-marker
         v-if="clear"
-        :position="polyStartEnd.start"
+        :position="polyStartEnd.end"
         :rotation=-35
         :zIndex=-1
-        :icon="{url: 'http://localhost:3030/start.png',size: {width: 48, height: 48},opts:{anchor:{width: 35, height: 40}}}"
+        :icon="{url: 'http://localhost:3030/end.png',size: {width: 48, height: 48},opts:{anchor:{width: 35, height: 40}}}"
       >
         <bm-marker
           v-if="clear"
-          :position="polyStartEnd.end"
+          :position="polyStartEnd.start"
           :rotation=35
           :zIndex=-1
-          :icon="{url: 'http://localhost:3030/end.png',size: {width: 48, height: 48},opts:{anchor:{width: 15, height: 40}}}"
+          :icon="{url: 'http://localhost:3030/start.png',size: {width: 48, height: 48},opts:{anchor:{width: 15, height: 40}}}"
         >
         </bm-marker>
       </bm-marker>
@@ -116,8 +116,8 @@ export default {
       this.center = { lng: value.lng, lat: value.lat };
       this.handleInfoWindow(value);
     });
-    EventBus.$on("history-clear", value => {
-      this.clear = value;
+    EventBus.$on("history-clear", () => {
+      this.clear = false;
       this.show = false;
     });
   },
@@ -137,10 +137,11 @@ export default {
     polylinePath() {
       let polylinePath = this.$store.state.historyList;
       if (polylinePath[0]) {
-        this.polyStartEnd.start = polylinePath[0];
+        this.clear = true;
+        this.polyStartEnd.end = polylinePath[0];
         this.center = { lng: polylinePath[0].lng, lat: polylinePath[0].lat };
         let length = polylinePath.length;
-        this.polyStartEnd.end = polylinePath[length - 1];
+        this.polyStartEnd.start = polylinePath[length - 1];
       }
       return polylinePath;
     }

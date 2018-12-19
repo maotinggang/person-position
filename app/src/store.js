@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import collection from 'lodash/collection'
+import array from 'lodash/array'
 
 Vue.use(Vuex)
 
@@ -42,7 +43,7 @@ export default new Vuex.Store({
       }
     },
     getHistoryList(state, data) {
-      state.historyList = data
+      state.historyList = array.concat(state.historyList, data)
     },
     clearHistoryList(state) {
       state.historyList = []
