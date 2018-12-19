@@ -1,10 +1,5 @@
 const net = require('net')
-const log = require('../../../lib/log')
-const pack = require('../../../lib/message/pack')
-const tools = require('../../../lib/tools')
-const parse = require('../../../lib/message/parse')
-const config = require('../../../lib/config')
-const tcpConfig = config.readConfig('server.access.tcp')
+const parse = require('./lib/parse')
 
 const server = net.createServer(socket => {
   //接收数据
@@ -20,8 +15,6 @@ const server = net.createServer(socket => {
             data: data
           }
         })
-        send = pack.error(err)
-        socket.write(send)
         log.set('access', {
           code: 'send',
           call: 'server.tcp.socket.on',
@@ -36,14 +29,11 @@ const server = net.createServer(socket => {
           call: 'server.tcp.socket.on',
           info: { id: devId, data: results }
         })
-        send = pack.response(results)
-        socket.write(send)
         log.set('access', {
           code: 'send',
           call: 'server.tcp.socket.on',
           info: { id: devId, data: send }
         })
-        redis1.set('raw', results, () => {})
       }
     })
   })
@@ -62,7 +52,6 @@ const server = net.createServer(socket => {
       call: 'server.tcp.socket.on',
       info: { id: devId, data: had_error }
     })
-    clearInterval(interval) //清除指令发送操作
   })
   //连接超时
   socket.setTimeout(tcpConfig.timeout)
@@ -72,11 +61,7 @@ const server = net.createServer(socket => {
       call: 'server.tcp.socket.on',
       info: devId
     })
-    socket.end(
-      pack.error({
-        code: 'timeout'
-      })
-    ) //发送超时包后关闭
+    socket.end() //超时后关闭
   })
 })
 

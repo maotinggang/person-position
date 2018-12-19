@@ -1,5 +1,5 @@
 const defaultConfig = require('../config/default.json')
-const file = require('./file')
+const fs = require('fs')
 const path = require('path')
 const log = require('./log')
 /**
@@ -15,10 +15,6 @@ exports.readConfig = type => {
       filename = 'server.access.tcp.json'
       userConfig = defaultConfig.server.access.tcp
       break
-    case 'server.compute.msgParser':
-      filename = 'server.compute.msgParser.json'
-      userConfig = defaultConfig.server.compute.msgParser
-      break
     case 'log':
       filename = 'log.json'
       userConfig = defaultConfig.log
@@ -31,10 +27,46 @@ exports.readConfig = type => {
       })
       break
   }
-  let ret = file.readFileSync(
+  let ret = readFileSync(
     path.resolve(__dirname, '../config/', filename),
     'json'
   )
   if (!ret.err) userConfig = ret.data
   return userConfig
+}
+
+/**
+ * @description 同步读取文件,错误时记录log
+ * @param {String} filename
+ * @param {String} type
+ * @returns {Object}
+ */
+readFileSync = (filename, type) => {
+  let data = '',
+    results = { err: '', data: '' }
+  try {
+    data = fs.readFileSync(filename, 'utf8')
+    switch (type) {
+      case 'json':
+        data = JSON.parse(data)
+        break
+      default:
+        results.err = {
+          type: 'read.file',
+          code: 'type',
+          call: 'lib.file.readFileSync',
+          info: type
+        }
+        break
+    }
+    results.data = data
+  } catch (error) {
+    results.err = {
+      type: 'read.file',
+      code: 'read',
+      call: 'lib.file.readFileSync',
+      info: error
+    }
+  }
+  return results
 }
