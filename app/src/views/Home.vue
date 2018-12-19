@@ -4,25 +4,20 @@
       <Header class="layout-header">
         <menu-all></menu-all>
       </Header>
-      <Layout class="layout-content">
-        <Sider
-          :style="{ left: 0}"
-          class="layout-sider"
+      <Sider class="layout-sider">
+        <Card
+          :padding=0
+          :bordered=false
         >
-          <Card
-            :padding=0
-            :bordered=false
-          >
-            <p slot="title">用户列表</p>
-            <list></list>
-          </Card>
-        </Sider>
-        <Content class="layout-content2">
-          <keep-alive>
-            <router-view></router-view>
-          </keep-alive>
-        </Content>
-      </Layout>
+          <p slot="title">用户列表</p>
+          <list></list>
+        </Card>
+      </Sider>
+      <Content class="layout-content">
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
+      </Content>
     </Layout>
   </div>
 </template>
@@ -49,16 +44,16 @@ export default {
   background: white;
   height: 100vh;
   overflow: auto;
-}
-.layout-card {
-  padding: 0px;
-}
-.layout-content {
-  position: relative;
   top: 64px;
 }
-.layout-content2 {
-  padding: 0 0 0 200px;
+.layout-content {
+  position: fixed;
+  width: 100%;
+  top: 64px;
+  bottom: 0px;
+  margin-left: 199px;
+  border: 1px solid #d7dde4;
+  background-color: white;
 }
 .layout-header {
   position: fixed;

@@ -1,8 +1,7 @@
 <template>
   <div class="form-param">
     <Form
-      ref="formValidate"
-      :model="formValidate"
+      :model="selected"
       label-position="left"
       :label-width="80"
       :rules="ruleValidate"
@@ -13,11 +12,10 @@
         style="margin:0 0 20px 0;"
       >
         <Input
-          v-model="formValidate.id"
+          v-model="selected.id"
           clearable
           type="text"
-          placeholder="必须唯一，与设备对应"
-          size="small"
+          placeholder="必须唯一，与设备对应，设备SN号"
         />
       </FormItem>
       <FormItem
@@ -26,33 +24,35 @@
         style="margin:0 0 20px 0;"
       >
         <Input
-          v-model="formValidate.name"
+          v-model="selected.name"
           clearable
           type="text"
-          placeholder="列表显示名称"
-          size="small"
+          placeholder="设备人员名称，列表显示名称"
         />
       </FormItem>
       <FormItem
-        label="设备类型"
-        prop="devType"
+        label="用户单位"
+        prop="section"
         style="margin:0 0 20px 0;"
       >
-        <Select
-          v-model="formValidate.devType"
-          size="small"
-        >
-          <Option value="1">人员定位</Option>
-        </Select>
+        <Input
+          v-model="selected.section"
+          clearable
+          type="text"
+          placeholder="用户所属单位或部门"
+        />
       </FormItem>
+
       <FormItem
-        label="安装时间"
+        label="操作时间"
         prop="setup"
-        style="margin:0 0 20px 0;"
+        style="margin:0 0 20px 0;text-align: left;"
       >
         <Date-picker
           type="datetime"
-          v-model="formValidate.setup"
+          v-model="selected.setup"
+          clearable
+          :editable="false"
           format="yyyy/MM/dd HH:mm"
           placeholder="设备安装时间"
         ></Date-picker>
@@ -62,15 +62,10 @@
 
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
-      formValidate: {
-        id: "",
-        name: "",
-        devType: "",
-        setup: ""
-      },
       ruleValidate: {
         id: [
           {
@@ -86,14 +81,7 @@ export default {
             trigger: "blur"
           }
         ],
-        devType: [
-          {
-            required: true,
-            message: "不能为空",
-            trigger: "blur"
-          }
-        ],
-        lat: [
+        section: [
           {
             required: true,
             message: "不能为空",
@@ -111,21 +99,9 @@ export default {
       }
     };
   },
-  components: {},
-  methods: {
-    handleSubmit(name) {
-      this.$refs[name].validate(valid => {
-        if (valid) {
-          this.$Message.success("Success!");
-        } else {
-          this.$Message.error("Fail!");
-        }
-      });
-    },
-    handleReset(name) {
-      this.$refs[name].resetFields();
-    }
-  }
+  computed: mapState({
+    selected: "selected"
+  })
 };
 </script>
 

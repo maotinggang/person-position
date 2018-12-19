@@ -1,20 +1,21 @@
 <template>
   <div>
-    <Row class="device">
-
-      <Col span="24">
+    <Card
+      class="device"
+      :bordered="false"
+    >
       <dev-info></dev-info>
       <dev-control></dev-control>
-
-      </Col>
-
-    </Row>
+    </Card>
   </div>
 </template>
 
 <script>
 import { Info, Control } from "@/components/device";
 export default {
+  data() {
+    return {};
+  },
   components: {
     "dev-info": Info,
     "dev-control": Control
@@ -24,6 +25,6 @@ export default {
 
 <style scoped>
 .device {
-  text-align: center;
+  width: 500px;
 }
 </style>

@@ -14,15 +14,11 @@ module.exports = function(app) {
           table.string('id');
           table.string('time');
           table.float('lat');
-          table.float('long');
+          table.float('lng');
           table.integer('qf');
-          table.integer('sat_no');
-          table.float('hdop');
           table.float('alt');
-          table.integer('age');
           table.float('speed');
           table.float('track_true');
-          table.float('mag_var');
         })
         .then(() => console.log(`Created ${tableName} table`))
         .catch(e => console.error(`Error creating ${tableName} table`, e));

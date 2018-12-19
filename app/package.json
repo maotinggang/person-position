@@ -8,7 +8,13 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@feathersjs/feathers": "^3.3.0",
+    "@feathersjs/rest-client": "^1.4.6",
+    "async": "^2.6.1",
+    "axios": "^0.18.0",
+    "date-time": "^2.1.0",
     "iview": "^3.0.1",
+    "lodash": "^4.17.11",
     "vue": "^2.5.17",
     "vue-baidu-map": "^0.21.14",
     "vue-router": "^3.0.1",

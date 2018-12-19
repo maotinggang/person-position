@@ -13,7 +13,8 @@ module.exports = function(app) {
         .createTable(tableName, table => {
           table.string('id');
           table.string('name');
-          table.string('type');
+          table.string('section');
+          table.string('setup');
         })
         .then(() => console.log(`Created ${tableName} table`))
         .catch(e => console.error(`Error creating ${tableName} table`, e));

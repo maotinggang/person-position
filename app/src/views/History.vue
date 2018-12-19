@@ -1,6 +1,6 @@
 <template>
   <div class="layout">
-    <baidu paddingRight="299px"></baidu>
+    <baidu-history paddingRight="500px"></baidu-history>
     <Layout>
       <Sider
         class="layout-sider"
@@ -18,11 +18,11 @@
   </div>
 </template>
 <script>
-import Baidu from "@/components/map";
+import { BaiduHistory } from "@/components/map";
 import Record from "@/components/record";
 export default {
   components: {
-    Baidu,
+    BaiduHistory,
     Record
   }
 };

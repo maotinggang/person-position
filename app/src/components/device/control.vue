@@ -1,31 +1,27 @@
 <template>
   <div class="device-control">
     <Row>
-      <Col span="6">
-      <Button
-        type="success"
-        ghost
-        icon="md-refresh"
-        @click="toRefresh"
-      >
-        手动刷新
-      </Button>
-      </Col>
-      <Col span="6">
-      <Button
-        type="primary"
-        ghost
-        icon="md-close"
-        @click="toCancel"
-      >
-        取消操作
-      </Button>
-      </Col>
-      <Col span="6">
+      <Col span="8">
       <Poptip
         confirm
-        title="是否确定提交信息?"
-        @on-ok="toSubmit"
+        title="是否确定修改信息?"
+        @on-ok="toAdd"
+        style="text-align: left;"
+      >
+        <Button
+          type="success"
+          ghost
+          icon="md-add"
+        >
+          添加设备
+        </Button>
+      </Poptip>
+      </Col>
+      <Col span="8">
+      <Poptip
+        confirm
+        title="是否确定修改信息?"
+        @on-ok="toUpdate"
         style="text-align: left;"
       >
         <Button
@@ -33,11 +29,11 @@
           ghost
           icon="ios-create"
         >
-          提交操作
+          修改参数
         </Button>
       </Poptip>
       </Col>
-      <Col span="6">
+      <Col span="8">
       <Poptip
         confirm
         title="是否确定删除此设备?"
@@ -63,24 +59,114 @@
 </template>
 
 <script>
+import feathersClient from "@/api/feathersClient";
+import { mapMutations, mapState } from "vuex";
 export default {
   data() {
     return {
       loading: false
     };
   },
+  computed: mapState({
+    selected: "selected"
+  }),
   methods: {
-    toSubmit() {
-      this.loading = true;
+    ...mapMutations(["listAdd", "listDelete", "listUpdate"]),
+    toAdd() {
+      if (
+        this.selected.id &&
+        this.selected.name &&
+        this.selected.section &&
+        this.selected.setup
+      ) {
+        this.loading = true;
+        feathersClient
+          .service("device")
+          .create(this.selected)
+          .then(res => {
+            this.loading = false;
+            this.listAdd(this.selected);
+            this.$Message.success({
+              content: "添加设备成功",
+              duration: 3,
+              closable: true
+            });
+          })
+          .catch(err => {
+            this.loading = false;
+            this.$Message.error({
+              content: "添加错误：" + err,
+              duration: 10,
+              closable: true
+            });
+          });
+      } else {
+        this.$Message.error({
+          content: "添加设备参数不能有空",
+          duration: 3,
+          closable: true
+        });
+      }
     },
     toDelete() {
-      this.loading = true;
+      if (this.selected.id) {
+        feathersClient
+          .service("device")
+          .remove(this.selected.id)
+          .then(res => {
+            this.loading = false;
+            this.listDelete(this.selected.id);
+            this.$Message.success({
+              content: "设备删除成功",
+              duration: 3,
+              closable: true
+            });
+          })
+          .catch(err => {
+            this.loading = false;
+            this.$Message.error({
+              content: "设备删除失败" + err,
+              duration: 10,
+              closable: true
+            });
+          });
+      } else {
+        this.$Message.error({
+          content: "设备号不能为空",
+          duration: 3,
+          closable: true
+        });
+      }
     },
-    toRefresh() {
-      this.loading = true;
-    },
-    toCancel() {
-      this.loading = true;
+    toUpdate() {
+      if (this.selected.id) {
+        feathersClient
+          .service("device")
+          .patch(this.selected.id, this.selected)
+          .then(res => {
+            this.loading = false;
+            this.listUpdate(this.selected);
+            this.$Message.success({
+              content: "修改成功",
+              duration: 3,
+              closable: true
+            });
+          })
+          .catch(err => {
+            this.loading = false;
+            this.$Message.error({
+              content: "修改失败" + err,
+              duration: 10,
+              closable: true
+            });
+          });
+      } else {
+        this.$Message.error({
+          content: "设备号不能为空",
+          duration: 3,
+          closable: true
+        });
+      }
     }
   }
 };

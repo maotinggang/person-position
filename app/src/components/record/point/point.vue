@@ -1,18 +1,23 @@
 
 <template>
   <Table
-    :columns="columns10"
-    :data="data9"
+    :columns="columns"
+    :data="data"
     size="small"
+    highlight-row
+    @on-row-dblclick="deviceClick"
   ></Table>
 </template>
 <script>
 import expandRow from "./expand.vue";
+import dateTime from "date-time";
+import { EventBus } from "@/event";
+import collection from "lodash/collection";
 export default {
   components: { expandRow },
   data() {
     return {
-      columns10: [
+      columns: [
         {
           type: "expand",
           width: 20,
@@ -36,47 +41,30 @@ export default {
           align: "center"
         },
         {
-          title: "状态",
-          key: "state",
+          title: "定位",
+          key: "qf",
           width: 60,
           align: "center"
         }
-      ],
-      data9: [
-        {
-          no: 1,
-          time: "20180502 12:05:30",
-          state: "正常",
-          longtitude: 112.123,
-          latitude: 39.236,
-          location: "北京海淀区"
-        },
-        {
-          no: 1,
-          time: "20180502 12:05:30",
-          state: "正常",
-          longtitude: 112.123,
-          latitude: 39.236,
-          location: "北京海淀区"
-        },
-        {
-          no: 1,
-          time: "20180502 12:05:30",
-          state: "正常",
-          longtitude: 112.123,
-          latitude: 39.236,
-          location: "北京海淀区"
-        },
-        {
-          no: 1,
-          time: "20180502 12:05:30",
-          state: "正常",
-          longtitude: 112.123,
-          latitude: 39.236,
-          location: "北京海淀区"
-        }
       ]
     };
+  },
+  computed: {
+    data() {
+      let data = this.$store.state.historyList;
+      if (data[0]) {
+        collection.forEach(data, (value, key) => {
+          data[key].no = key + 1;
+          data[key].time = dateTime({ date: new Date(value.time) });
+        });
+      }
+      return data;
+    }
+  },
+  methods: {
+    deviceClick(value) {
+      EventBus.$emit("history-clicked", value);
+    }
   }
 };
 </script>

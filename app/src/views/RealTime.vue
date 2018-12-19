@@ -1,13 +1,13 @@
 <template>
   <div>
-    <baidu></baidu>
+    <baidu-real-time></baidu-real-time>
   </div>
 </template>
 <script>
-import Baidu from "@/components/map";
+import { BaiduRealTime } from "@/components/map";
 export default {
   components: {
-    Baidu
+    BaiduRealTime
   }
 };
 </script>
