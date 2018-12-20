@@ -57,7 +57,7 @@
         @close="infoWindowClose"
         @open="infoWindowOpen"
         :title="'设备号：'+pointInfo.id"
-        :offset="{width:3,height:-15}"
+        :offset="{width:3,height:-3}"
       ><span class="point-span">
           <Row>
             <Col span="18">
@@ -135,15 +135,15 @@ export default {
   },
   computed: {
     polylinePath() {
-      let polylinePath = this.$store.state.historyList;
-      if (polylinePath[0]) {
+      let polyline = this.$store.state.historyList;
+      if (polyline[0]) {
         this.clear = true;
-        this.polyStartEnd.end = polylinePath[0];
-        this.center = { lng: polylinePath[0].lng, lat: polylinePath[0].lat };
-        let length = polylinePath.length;
-        this.polyStartEnd.start = polylinePath[length - 1];
+        this.polyStartEnd.end = polyline[0];
+        this.center = { lng: polyline[0].lng, lat: polyline[0].lat };
+        let length = polyline.length;
+        this.polyStartEnd.start = polyline[length - 1];
       }
-      return polylinePath;
+      return polyline;
     }
   }
 };
@@ -155,5 +155,8 @@ export default {
   width: 100%;
   top: 63px;
   bottom: 0;
+}
+.point-span {
+  font-size: 11px;
 }
 </style>

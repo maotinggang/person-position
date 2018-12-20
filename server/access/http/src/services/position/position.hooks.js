@@ -1,5 +1,7 @@
 
 
+const posDataProcess = require('../../hooks/pos-data-process');
+
 module.exports = {
   before: {
     all: [],
@@ -13,7 +15,7 @@ module.exports = {
 
   after: {
     all: [],
-    find: [],
+    find: [posDataProcess()],
     get: [],
     create: [],
     update: [],

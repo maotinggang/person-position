@@ -1,6 +1,6 @@
 {
   "host": "localhost",
-  "port": 3030,
+  "port": 8080,
   "public": "../public",
   "paginate": {
     "default": 1000,
@@ -15,7 +15,7 @@
       "database": "person_position"
     },
     "pool": {
-      "min": 0,
+      "min": 1,
       "max": 10
     }
   }

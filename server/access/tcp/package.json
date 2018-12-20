@@ -1,5 +1,14 @@
 {
+  "scripts": {
+    "start": "webpack --config webpack.config.js",
+    "build": "webpack"
+  },
   "dependencies": {
     "mariadb": "^2.0.2-rc"
+  },
+  "devDependencies": {
+    "node-loader": "^0.6.0",
+    "webpack": "^4.28.0",
+    "webpack-cli": "^3.1.2"
   }
 }

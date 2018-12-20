@@ -1,9 +1,6 @@
 <template>
   <div>
-    <Card
-      :padding=2
-      class="operate"
-    >
+    <Card :padding=2>
       <operate></operate>
     </Card>
     <Card
@@ -27,6 +24,4 @@ export default {
 </script>
 
 <style scoped>
-.operate {
-}
 </style>

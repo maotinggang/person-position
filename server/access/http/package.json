@@ -26,6 +26,7 @@
     "eslint": "eslint src/. test/. --config .eslintrc.json",
     "dev": "nodemon src/",
     "start": "node src/",
+    "build": "webpack",
     "mocha": "mocha test/ --recursive --exit"
   },
   "dependencies": {
@@ -36,11 +37,17 @@
     "@feathersjs/socketio": "^3.2.7",
     "compression": "^1.7.3",
     "cors": "^2.8.5",
+    "date-time": "^2.1.0",
     "feathers-knex": "^4.0.0",
     "helmet": "^3.15.0",
     "knex": "^0.15.2",
+    "lodash": "^4.17.11",
+    "mssql": "^4.3.0",
+    "mysql": "^2.16.0",
     "mysql2": "^1.6.1",
+    "pg": "^7.7.1",
     "serve-favicon": "^2.5.0",
+    "uws": "^10.148.1",
     "winston": "^3.0.0"
   },
   "devDependencies": {
@@ -48,6 +55,9 @@
     "mocha": "^5.2.0",
     "nodemon": "^1.18.8",
     "request": "^2.88.0",
-    "request-promise": "^4.2.2"
+    "request-promise": "^4.2.2",
+    "node-loader": "^0.6.0",
+    "webpack": "^4.28.0",
+    "webpack-cli": "^3.1.2"
   }
 }

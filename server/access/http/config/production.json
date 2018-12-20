@@ -1,4 +1,4 @@
 {
-  "host": "http-app.feathersjs.com",
-  "port": "PORT"
+  "host": "localhost",
+  "port": "8080"
 }

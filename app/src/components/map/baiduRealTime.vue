@@ -72,7 +72,6 @@
 
 <script>
 import collection from "lodash/collection";
-import dateTime from "date-time";
 import { EventBus } from "@/lib/event";
 import feathersClient from "@/api/feathersClient";
 export default {
@@ -123,6 +122,7 @@ export default {
       let selectDevice = collection.find(this.points, { id: device.id });
       if (selectDevice) {
         this.center = { lng: selectDevice.lng, lat: selectDevice.lat };
+        this.zoom = 19;
         this.handleInfoWindow(selectDevice);
       } else {
         this.$Message.error({
@@ -148,7 +148,6 @@ export default {
           collection.forEach(res.data, value => {
             let data = collection.find(this.points, { id: value.id });
             if (data) {
-              value.time = dateTime({ date: new Date(value.time) });
               if (value.time > data.time) {
                 this.points = collection.reject(this.points, { id: value.id });
                 this.points.push(value);
@@ -161,7 +160,6 @@ export default {
                 id: value.id
               });
               if (isRegiste) {
-                value.time = dateTime({ date: new Date(value.time) });
                 this.points.push(value);
               }
             }

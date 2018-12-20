@@ -10,7 +10,6 @@
 </template>
 <script>
 import expandRow from "./expand.vue";
-import dateTime from "date-time";
 import { EventBus } from "@/lib/event";
 import collection from "lodash/collection";
 export default {
@@ -55,7 +54,7 @@ export default {
       if (data[0]) {
         collection.forEach(data, (value, key) => {
           data[key].no = key + 1;
-          data[key].time = dateTime({ date: new Date(value.time) });
+          data[key].time = value.time;
         });
       }
       return data;

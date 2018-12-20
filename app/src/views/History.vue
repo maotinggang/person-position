@@ -1,10 +1,10 @@
 <template>
   <div class="layout">
-    <baidu-history paddingRight="500px"></baidu-history>
+    <baidu-history paddingRight="530px"></baidu-history>
     <Layout>
       <Sider
         class="layout-sider"
-        :width=300
+        :width=330
       >
         <Card
           :padding=0
