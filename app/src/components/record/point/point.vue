@@ -1,37 +1,40 @@
-
 <template>
-  <Table
-    :columns="columns"
-    :data="data"
-    size="small"
-    highlight-row
-    @on-row-dblclick="deviceClick"
-  ></Table>
+  <div class="table">
+    <Table
+      :columns="columns"
+      :data="historyList"
+      size="small"
+      :height="tableheight"
+      highlight-row
+      @on-row-dblclick="deviceClick"
+    ></Table>
+  </div>
 </template>
 <script>
-import expandRow from "./expand.vue";
+// import expandRow from "./expand.vue";
+import { mapState } from "vuex";
 import { EventBus } from "@/lib/event";
-import collection from "lodash/collection";
+// import collection from "lodash/collection";
 export default {
-  components: { expandRow },
+  // components: { expandRow },
   data() {
     return {
       columns: [
-        {
-          type: "expand",
-          width: 20,
-          render: (h, params) => {
-            return h(expandRow, {
-              props: {
-                row: params.row
-              }
-            });
-          }
-        },
+        // {
+        //   type: "expand",
+        //   width: 20,
+        //   render: (h, params) => {
+        //     return h(expandRow, {
+        //       props: {
+        //         row: params.row
+        //       }
+        //     });
+        //   }
+        // },
         {
           title: "序号",
           key: "no",
-          width: 60,
+          width: 80,
           align: "center"
         },
         {
@@ -45,20 +48,20 @@ export default {
           width: 60,
           align: "center"
         }
-      ]
+      ],
+      tableheight: 0
+    };
+  },
+  created() {
+    window.onresize = () => {
+      this.tableheight = window.innerHeight - 225;
+    };
+    window.onload = () => {
+      this.tableheight = window.innerHeight - 225;
     };
   },
   computed: {
-    data() {
-      let data = this.$store.state.historyList;
-      if (data[0]) {
-        collection.forEach(data, (value, key) => {
-          data[key].no = key + 1;
-          data[key].time = value.time;
-        });
-      }
-      return data;
-    }
+    ...mapState(["historyList"])
   },
   methods: {
     deviceClick(value) {
@@ -69,10 +72,11 @@ export default {
 </script>
 
 <style>
-.ivu-table .table-cell {
-  background-color: aqua;
-}
-.ivu-table th.table-column {
-  background-color: aqua;
+/* .ivu-table .table-cell {
+  background-color: #ff6600;
+  color: #fff;
+} */
+.table {
+  overflow: auto;
 }
 </style>

@@ -1,18 +1,13 @@
 const path = require('path')
 
 module.exports = {
-  entry: { index: './index.js' },
+  entry: { index: './src/index.js' },
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist')
   },
   module: {
-    rules: [
-      {
-        test: /\.node$/,
-        use: 'node-loader'
-      }
-    ]
+    rules: []
   },
   mode: 'production',
   // mode: 'development',

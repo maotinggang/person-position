@@ -25,7 +25,7 @@
         :position="{lng:point.lng,lat:point.lat}"
         animation="BMAP_ANIMATION_DROP"
         :title="point.id"
-        :icon="{url: 'http://localhost:3030/person.png',size: {width: 32, height: 32}}"
+        :icon="{url:config.url + '/img/online.png',size: {width: 32, height: 32}}"
         @click="handleInfoWindow(point)"
       >
       </bm-marker>
@@ -73,6 +73,8 @@
 <script>
 import collection from "lodash/collection";
 import { EventBus } from "@/lib/event";
+import config from "@/config/http.json";
+// import dateTime from "date-time";
 import feathersClient from "@/api/feathersClient";
 export default {
   props: {
@@ -87,10 +89,11 @@ export default {
       zoom: 15,
       points: [],
       show: false,
-      pointInfo: ""
+      pointInfo: "",
+      config: config
     };
   },
-  components: {},
+  computed: {},
   created() {
     //设置地图中心点
     feathersClient
@@ -106,7 +109,7 @@ export default {
       .then(res => {
         setTimeout(() => {
           this.center = { lng: res.data[0].lng, lat: res.data[0].lat };
-        }, 500);
+        }, 1000);
       })
       .catch(err => {
         this.$Message.error({
@@ -145,7 +148,16 @@ export default {
           }
         })
         .then(res => {
+          // let now = new Date();
+          // now.setMinutes(now.getMinutes() - 1);
+          // now = dateTime({ date: new Date(now) });
+
           collection.forEach(res.data, value => {
+            // if (value.time > now) {
+            //   value.state = "online.png";
+            // } else {
+            //   value.state = "offline.png";
+            // }
             let data = collection.find(this.points, { id: value.id });
             if (data) {
               if (value.time > data.time) {
@@ -172,7 +184,7 @@ export default {
             closable: true
           });
         });
-    }, 1000);
+    }, 2000);
   },
 
   methods: {

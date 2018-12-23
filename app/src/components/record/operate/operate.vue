@@ -36,6 +36,13 @@
         >查询</Button>
         <Button
           style="margin-left: 20px"
+          type="primary"
+          size="small"
+          ghost
+          @click="play"
+        >播放</Button>
+        <Button
+          style="margin-left: 20px"
           type="error"
           size="small"
           ghost
@@ -67,13 +74,18 @@ export default {
     });
   },
   methods: {
-    ...mapMutations(["getHistoryList", "clearHistoryList"]),
+    ...mapMutations([
+      "setHistoryList",
+      "clearHistoryList",
+      "setPolylineControlEnd",
+      "setPolylineControlStart",
+      "setPolylineControl"
+    ]),
     select() {
       let checked = this.$store.state.checked;
       if (!checked[0]) {
         this.$Message.error({
           content: "请选择查询设备",
-          duration: 3,
           closable: true
         });
       } else if (checked.length > 1) {
@@ -84,13 +96,21 @@ export default {
       } else {
         this.clear();
         let id = checked[0].id;
-        //按时间10分钟进行分段查询，防止一次数据量过大
-        let intervalTime = 10 * 60 * 1000;
+        //按时间60分钟进行分段查询，防止一次数据量过大
+        let intervalTime = 60 * 60 * 1000;
         let startTime = new Date(this.formItem.datetime.start);
         let endTime = new Date(this.formItem.datetime.end);
         let startMill = startTime.getTime();
         let endMill = endTime.getTime();
         let count = Math.ceil((endMill - startMill) / intervalTime);
+        this.setPolylineControlEnd(count);
+        if (count > 24) {
+          this.$Message.error({
+            content: "暂支持查询24小时数据",
+            closable: true
+          });
+          return;
+        }
         for (let index = 0; index < count; index++) {
           let start = startMill + index * intervalTime;
           let end = startMill + (index + 1) * intervalTime;
@@ -111,15 +131,15 @@ export default {
       this.clearHistoryList();
       EventBus.$emit("history-clear");
     },
+    play() {
+      EventBus.$emit("history-play");
+    },
     getPosition(id, start, end) {
       feathersClient
         .service("position")
         .find({
           query: {
             id: id,
-            $sort: {
-              time: -1
-            },
             time: {
               $lte: end,
               $gte: start
@@ -127,7 +147,15 @@ export default {
           }
         })
         .then(res => {
-          this.getHistoryList(res.data);
+          this.setPolylineControlStart();
+          if (res.data[0]) this.setHistoryList(res.data);
+          if (
+            this.$store.state.polylineControl.start ==
+            this.$store.state.polylineControl.end
+          ) {
+            this.setPolylineControl();
+            EventBus.$emit("history-select-done");
+          }
         })
         .catch(err => {
           this.loading = false;

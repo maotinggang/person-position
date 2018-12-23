@@ -30,17 +30,18 @@ exports.set = (type, data) => {
   if (logConfig.print) {
     console.log(data)
   }
-  if (logConfig.leval == 1) {
-    if (type == 'error') {
-    }
-  } else if (logConfig.leval == 2) {
-    if (type == 'error') {
-    } else if (type == 'run') {
-    }
-  } else {
-    if (type == 'error') {
-    } else if (type == 'run') {
-    } else if (type == 'access') {
-    }
-  }
+  return
+  // if (logConfig.leval == 1) {
+  //   if (type == 'error') {
+  //   }
+  // } else if (logConfig.leval == 2) {
+  //   if (type == 'error') {
+  //   } else if (type == 'run') {
+  //   }
+  // } else {
+  //   if (type == 'error') {
+  //   } else if (type == 'run') {
+  //   } else if (type == 'access') {
+  //   }
+  // }
 }

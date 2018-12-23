@@ -20,37 +20,35 @@
       ></bm-geolocation>
       <bm-panorama></bm-panorama>
       <bm-polyline
-        v-if="clear"
-        :path="polylinePath"
+        :path="historyList"
+        v-if="showLine"
         stroke-color="red"
+        :stroke-opacity="1"
+        :stroke-weight="5"
+      ></bm-polyline>
+      <bm-polyline
+        :path="polylinePlay"
+        v-if="showPlay"
+        stroke-color="blue"
         :stroke-opacity="0.5"
         :stroke-weight="3"
       ></bm-polyline>
-      <bm-marker
-        v-for="(point,index) in polylinePath"
-        :key="index"
-        :position="{lng:point.lng,lat:point.lat}"
-        :title="point.id"
-        :icon="{url: 'http://localhost:3030/point.png',size: {width: 32, height: 32}}"
-        @click="handleInfoWindow(point)"
-      >
-      </bm-marker>
-      <bm-marker
-        v-if="clear"
+      <!-- <bm-marker
+        v-if="showLine"
         :position="polyStartEnd.end"
         :rotation=-35
         :zIndex=-1
-        :icon="{url: 'http://localhost:3030/end.png',size: {width: 48, height: 48},opts:{anchor:{width: 35, height: 40}}}"
+        :icon="{url: config.url +'/img/end.png',size: {width: 48, height: 48},opts:{anchor:{width: 35, height: 40}}}"
       >
-        <bm-marker
-          v-if="clear"
-          :position="polyStartEnd.start"
-          :rotation=35
-          :zIndex=-1
-          :icon="{url: 'http://localhost:3030/start.png',size: {width: 48, height: 48},opts:{anchor:{width: 15, height: 40}}}"
-        >
-        </bm-marker>
       </bm-marker>
+      <bm-marker
+        v-if="showLine"
+        :position="polyStartEnd.start"
+        :rotation=35
+        :zIndex=-1
+        :icon="{url:config.url + '/img/start.png',size: {width: 48, height: 48},opts:{anchor:{width: 15, height: 40}}}"
+      >
+      </bm-marker> -->
       <bm-info-window
         :position="{lng: pointInfo.lng, lat: pointInfo.lat}"
         :show="show"
@@ -94,6 +92,9 @@
 
 <script>
 import { EventBus } from "@/lib/event";
+// import config from "@/config/http.json";
+import { mapState } from "vuex";
+
 export default {
   props: {
     paddingRight: {
@@ -108,17 +109,73 @@ export default {
       show: false,
       pointInfo: "",
       polyStartEnd: { start: "", end: "" },
-      clear: true
+      showLine: false,
+      showPlay: false,
+      // config: config,
+      polylinePlay: []
     };
   },
   mounted() {
     EventBus.$on("history-clicked", value => {
       this.center = { lng: value.lng, lat: value.lat };
+      this.zoom = 19;
       this.handleInfoWindow(value);
     });
     EventBus.$on("history-clear", () => {
-      this.clear = false;
+      this.showLine = false;
       this.show = false;
+    });
+    EventBus.$on("history-select-done", () => {
+      if (this.historyList[0]) {
+        this.showLine = true;
+        // this.polyStartEnd.start = this.historyList[0];
+        this.center = {
+          lng: this.historyList[0].lng,
+          lat: this.historyList[0].lat
+        };
+        this.zoom = 19;
+        // let length = this.historyList.length;
+        // this.polyStartEnd.end = this.historyList[length - 1];
+      }
+    });
+    EventBus.$on("history-play", () => {
+      this.showPlay = true;
+      let index = 0;
+      let count = this.historyList.length;
+      this.polylinePlay = [];
+      let play = setInterval(
+        () => {
+          if (index < count) {
+            this.polylinePlay.push({
+              lng: this.historyList[index].lng,
+              lat: this.historyList[index].lat
+            });
+            this.polylinePlay.push({
+              lng: this.historyList[index + 1].lng,
+              lat: this.historyList[index + 1].lat
+            });
+            this.polylinePlay.push({
+              lng: this.historyList[index + 2].lng,
+              lat: this.historyList[index + 2].lat
+            });
+            this.polylinePlay.push({
+              lng: this.historyList[index + 3].lng,
+              lat: this.historyList[index + 3].lat
+            });
+            this.polylinePlay.push({
+              lng: this.historyList[index + 4].lng,
+              lat: this.historyList[index + 4].lat
+            });
+            index += 5;
+          } else {
+            clearInterval(play);
+          }
+        },
+        5,
+        play,
+        index,
+        count
+      );
     });
   },
   methods: {
@@ -134,17 +191,7 @@ export default {
     }
   },
   computed: {
-    polylinePath() {
-      let polyline = this.$store.state.historyList;
-      if (polyline[0]) {
-        this.clear = true;
-        this.polyStartEnd.end = polyline[0];
-        this.center = { lng: polyline[0].lng, lat: polyline[0].lat };
-        let length = polyline.length;
-        this.polyStartEnd.start = polyline[length - 1];
-      }
-      return polyline;
-    }
+    ...mapState(["historyList"])
   }
 };
 </script>

@@ -1,4 +1,4 @@
-const defaultConfig = require('../config/default.json')
+const defaultConfig = require('./config/default.json')
 const fs = require('fs')
 const path = require('path')
 /**
@@ -25,16 +25,18 @@ exports.readConfig = type => {
     default:
       console.log({
         code: 'type',
-        call: 'lib.config.readConfig',
+        call: 'src.config.readConfig',
         info: type
       })
       break
   }
+  // let ret = readFileSync(path.resolve(__dirname, './config', filename), 'json')
   let ret = readFileSync(
-    path.resolve(__dirname, '../config/', filename),
+    path.resolve(__dirname, './person-position/tcp/config', filename),
     'json'
-  )
+  ) //production
   if (!ret.err) userConfig = ret.data
+  else console.log(ret.err)
   return userConfig
 }
 
@@ -56,7 +58,7 @@ const readFileSync = (filename, type) => {
       default:
         results.err = {
           code: 'type',
-          call: 'lib.file.readFileSync',
+          call: 'src.config.readFileSync',
           info: type
         }
         break
@@ -66,7 +68,7 @@ const readFileSync = (filename, type) => {
     results.err = {
       type: 'read.file',
       code: 'read',
-      call: 'lib.file.readFileSync',
+      call: 'src.config.readFileSync',
       info: error
     }
   }

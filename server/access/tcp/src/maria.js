@@ -1,8 +1,8 @@
 const mariadb = require('mariadb')
 const config = require('./config')
 const log = require('./log')
-
-const pool = mariadb.createPool(config.readConfig('mariadb'))
+const userConfig = config.readConfig('mariadb')
+const pool = mariadb.createPool(userConfig)
 
 exports.asyncFunction = async data => {
   let conn

@@ -1,7 +1,7 @@
 {
   "host": "localhost",
   "user": "root",
-  "password": "microgram",
+  "password": "hlfy123456",
   "connectionLimit": 10,
   "database": "person_position"
 }

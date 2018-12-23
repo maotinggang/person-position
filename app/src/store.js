@@ -10,7 +10,9 @@ export default new Vuex.Store({
     list: [],
     selected: {},
     checked: [],
-    historyList: []
+    historyList: [],
+    config: {},
+    polylineControl: { start: 0, end: 0 }
   },
   mutations: {
     listInit(state, devices) {
@@ -42,11 +44,29 @@ export default new Vuex.Store({
         })
       }
     },
-    getHistoryList(state, data) {
+    setHistoryList(state, data) {
       state.historyList = array.concat(state.historyList, data)
     },
     clearHistoryList(state) {
       state.historyList = []
+    },
+    getConfig(state, data) {
+      state.config = data
+    },
+    setPolylineControlEnd(state, data) {
+      state.polylineControl.end = data
+    },
+    setPolylineControlStart(state) {
+      state.polylineControl.start++
+    },
+    setPolylineControl(state) {
+      state.polylineControl = { start: 0, end: 0 }
+      if (state.historyList[0]) {
+        state.historyList = collection.sortBy(state.historyList, ['time'])
+        state.historyList.forEach((value, key) => {
+          state.historyList[key].no = key + 1
+        })
+      }
     }
   },
   actions: {}

@@ -1,10 +1,10 @@
 <template>
   <div class="layout">
-    <baidu-history paddingRight="530px"></baidu-history>
+    <baidu-history paddingRight="550px"></baidu-history>
     <Layout>
       <Sider
         class="layout-sider"
-        :width=330
+        :width=350
       >
         <Card
           :padding=0
@@ -34,6 +34,6 @@ export default {
   top: 64px;
   background: white;
   height: 100vh;
-  overflow: auto;
+  overflow: hidden;
 }
 </style>

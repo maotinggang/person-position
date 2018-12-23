@@ -1,46 +1,37 @@
 const net = require('net')
-const parse = require('./src/parse')
-const mariadb = require('./src/maria')
-const config = require('./src/config')
-const log = require('./src/log')
+const parse = require('./parse')
+const mariadb = require('./maria')
+const config = require('./config')
+const log = require('./log')
 
 const tcpConfig = config.readConfig('access.tcp')
 
 const server = net.createServer(socket => {
   //接收数据
-  let devId,
-    no = 0,
-    allData = ''
+  let devId
   socket.on('data', data => {
-    no++
-    allData += data
-    if (no == 3) {
-      no = 0
-      log.set('access', {
-        code: 'receive.data',
-        call: 'server.tcp.socket.on',
-        info: allData
-      })
-      parse.receive(allData, (err, results) => {
-        if (err) {
-          log.set('error', {
-            code: 'receive.data.parse',
-            call: 'server.tcp.socket.on',
-            info: {
-              id: devId
-                ? devId
-                : socket.remoteAddress + ':' + socket.remotePort,
-              data: err
-            }
-          })
-        } else {
-          devId = results.id
-          //保存到数据库
-          mariadb.asyncFunction(results)
-        }
-      })
-      allData = ''
-    }
+    data = data.toString()
+    log.set('access', {
+      code: 'receive.data',
+      call: 'server.tcp.socket.on',
+      info: data
+    })
+    parse.receive(data, (err, results) => {
+      if (err) {
+        log.set('error', {
+          code: 'receive.data.parse',
+          call: 'server.tcp.socket.on',
+          info: {
+            id: devId ? devId : socket.remoteAddress + ':' + socket.remotePort,
+            data: err
+          }
+        })
+      } else {
+        devId = results.id
+        //保存到数据库
+        mariadb.asyncFunction(results)
+      }
+    })
   })
 
   socket.on('error', err => {
@@ -63,6 +54,12 @@ const server = net.createServer(socket => {
         data: had_error
       }
     })
+    let now = new Date()
+    console.log(
+      'device close;time:' + now + ';id:' + devId
+        ? devId
+        : socket.remoteAddress + ':' + socket.remotePort
+    )
   })
   //连接超时
   socket.setTimeout(tcpConfig.timeout)
@@ -85,6 +82,15 @@ server.on('connection', socket => {
     call: 'server.tcp.server.on',
     info: socket.remoteAddress + ':' + socket.remotePort
   })
+  let now = new Date()
+  console.log(
+    'device connection;time:' +
+      now +
+      ';ip:' +
+      socket.remoteAddress +
+      ':' +
+      socket.remotePort
+  )
 })
 server.listen(tcpConfig.port, () => {
   let now = new Date()

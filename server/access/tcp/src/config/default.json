@@ -7,14 +7,13 @@
     "access": {
       "tcp": {
         "serverID": "tcp1",
-        "port": 8010,
-        "interval": 200,
+        "port": 8008,
         "timeout": 60000
       }
     }
   },
   "log": {
-    "leval": 2,
+    "leval": 3,
     "code": true,
     "call": true,
     "info": true,
@@ -22,8 +21,9 @@
   },
   "mariadb": {
     "host": "localhost",
-    "user": "microgram",
-    "password": "microgram",
-    "connectionLimit": 10
+    "user": "root",
+    "password": "hlfy123456",
+    "connectionLimit": 10,
+    "database": "person_position"
   }
 }
