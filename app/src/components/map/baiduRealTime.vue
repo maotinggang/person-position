@@ -34,14 +34,19 @@
         :show="show"
         @close="infoWindowClose"
         @open="infoWindowOpen"
-        :title="'设备号：'+pointInfo.id"
+        :title="'姓名：'+pointInfo.name"
         :offset="{width:3,height:-15}"
       ><span class="point-span">
           <Row>
-            <Col span="18">
+            <Col>
             时间：{{pointInfo.time}}
             </Col>
-            <Col span="6">
+          </Row>
+          <Row>
+            <Col span="16">
+            设备号：{{pointInfo.id}}
+            </Col>
+            <Col span="8">
             定位：{{pointInfo.qf}}
             </Col>
           </Row>
@@ -162,16 +167,21 @@ export default {
             if (data) {
               if (value.time > data.time) {
                 this.points = collection.reject(this.points, { id: value.id });
+                let device = collection.find(this.$store.state.list, {
+                  id: value.id
+                });
+                value.name = device.name;
                 this.points.push(value);
                 if (this.show) {
                   this.handleInfoWindow(value);
                 }
               }
             } else {
-              let isRegiste = collection.find(this.$store.state.list, {
+              let device = collection.find(this.$store.state.list, {
                 id: value.id
               });
-              if (isRegiste) {
+              if (device) {
+                value.name = device.name;
                 this.points.push(value);
               }
             }
@@ -210,6 +220,6 @@ export default {
   bottom: 0;
 }
 .point-span {
-  font-size: 11px;
+  font-size: 10px;
 }
 </style>

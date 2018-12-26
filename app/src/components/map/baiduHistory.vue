@@ -54,14 +54,19 @@
         :show="show"
         @close="infoWindowClose"
         @open="infoWindowOpen"
-        :title="'设备号：'+pointInfo.id"
+        :title="'姓名：'+pointInfo.name"
         :offset="{width:3,height:-3}"
       ><span class="point-span">
           <Row>
-            <Col span="18">
+            <Col>
             时间：{{pointInfo.time}}
             </Col>
-            <Col span="6">
+          </Row>
+          <Row>
+            <Col span="16">
+            设备号：{{pointInfo.id}}
+            </Col>
+            <Col span="8">
             定位：{{pointInfo.qf}}
             </Col>
           </Row>
@@ -92,7 +97,7 @@
 
 <script>
 import { EventBus } from "@/lib/event";
-// import config from "@/config/http.json";
+import collection from "lodash/collection";
 import { mapState } from "vuex";
 
 export default {
@@ -119,6 +124,10 @@ export default {
     EventBus.$on("history-clicked", value => {
       this.center = { lng: value.lng, lat: value.lat };
       this.zoom = 19;
+      let device = collection.find(this.$store.state.list, {
+        id: value.id
+      });
+      value.name = device.name;
       this.handleInfoWindow(value);
     });
     EventBus.$on("history-clear", () => {

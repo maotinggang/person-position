@@ -1,5 +1,5 @@
 <template>
-  <div class="table">
+  <div>
     <Table
       :columns="columns"
       :data="historyList"
@@ -49,7 +49,7 @@ export default {
           align: "center"
         }
       ],
-      tableheight: 0
+      tableheight: window.innerHeight - 225
     };
   },
   created() {
