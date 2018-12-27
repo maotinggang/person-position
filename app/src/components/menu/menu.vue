@@ -29,6 +29,13 @@
         </MenuItem>
         <MenuItem
           name="3"
+          to="exportData"
+        >
+        <Icon type="md-document" />
+        数据导出
+        </MenuItem>
+        <MenuItem
+          name="4"
           to="device"
         >
         <Icon type="md-construct" />

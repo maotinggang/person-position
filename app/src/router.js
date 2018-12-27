@@ -26,6 +26,11 @@ export default new Router({
           path: 'device',
           name: 'device',
           component: () => import('./views/Device.vue')
+        },
+        {
+          path: 'exportData',
+          name: 'exportData',
+          component: () => import('./views/exportData.vue')
         }
       ]
     }

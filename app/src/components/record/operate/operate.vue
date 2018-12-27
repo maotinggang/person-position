@@ -36,6 +36,13 @@
         >查询</Button>
         <Button
           style="margin-left: 20px"
+          type="success"
+          size="small"
+          ghost
+          @click="exportCsv"
+        >导出</Button>
+        <Button
+          style="margin-left: 20px"
           type="primary"
           size="small"
           ghost
@@ -126,6 +133,9 @@ export default {
           closable: true
         });
       }
+    },
+    exportCsv() {
+      EventBus.$emit("history-exportCsv");
     },
     clear() {
       this.clearHistoryList();
