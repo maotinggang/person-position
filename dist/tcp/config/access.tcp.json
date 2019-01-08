@@ -1,0 +1,6 @@
+{
+  "serverID": "tcp1",
+  "port": 8008,
+  "_comment.timeout": "网络超时时间",
+  "timeout": 60000
+}
