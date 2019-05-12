@@ -1,14 +1,7 @@
 <template>
   <div>
-    <Form
-      :model="formItem"
-      :label-width="60"
-      label-position="left"
-    >
-      <FormItem
-        label="开始时间"
-        style="margin:2px 2px;"
-      >
+    <Form :model="formItem" :label-width="60" label-position="left">
+      <FormItem label="开始时间" style="margin:2px 2px;">
         <DatePicker
           size="small"
           type="datetime"
@@ -16,10 +9,7 @@
           v-model="formItem.datetime.start"
         ></DatePicker>
       </FormItem>
-      <FormItem
-        label="结束时间"
-        style="margin:2px 2px;"
-      >
+      <FormItem label="结束时间" style="margin:2px 2px;">
         <DatePicker
           size="small"
           type="datetime"
@@ -28,33 +18,10 @@
         ></DatePicker>
       </FormItem>
       <div style="margin:5px 0 5px 0;text-align: center;">
-        <Button
-          type="primary"
-          size="small"
-          ghost
-          @click="select"
-        >查询</Button>
-        <Button
-          style="margin-left: 20px"
-          type="success"
-          size="small"
-          ghost
-          @click="exportCsv"
-        >导出</Button>
-        <Button
-          style="margin-left: 20px"
-          type="primary"
-          size="small"
-          ghost
-          @click="play"
-        >播放</Button>
-        <Button
-          style="margin-left: 20px"
-          type="error"
-          size="small"
-          ghost
-          @click="clear"
-        >清除</Button>
+        <Button type="primary" size="small" ghost @click="select">查询</Button>
+        <!-- <Button style="margin-left: 20px" type="success" size="small" ghost @click="exportCsv">导出</Button> -->
+        <Button style="margin-left: 20px" type="primary" size="small" ghost @click="play">播放</Button>
+        <Button style="margin-left: 20px" type="error" size="small" ghost @click="clear">清除</Button>
       </div>
     </Form>
   </div>
@@ -68,7 +35,8 @@ export default {
   data() {
     return {
       formItem: {
-        datetime: { start: "", end: "" },
+        // TODO test
+        datetime: { start: "2019-04-02 19:19:19", end: "2019-04-02 19:20:19" },
         slider: 1
       },
       trackData: []

@@ -5,12 +5,12 @@ import Home from './views/Home.vue'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
-      path: '/',
+      path: '/home',
       name: 'home',
       component: Home,
-      redirect: 'real-time',
       children: [
         {
           path: 'real-time',
@@ -33,6 +33,11 @@ export default new Router({
           component: () => import('./views/exportData.vue')
         }
       ]
+    },
+    {
+      path: '/',
+      name: 'login',
+      component: () => import('./views/login/login.vue')
     }
   ]
 })

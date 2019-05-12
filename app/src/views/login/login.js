@@ -4,8 +4,8 @@ export default {
     return {
       // TODO for test
       form: {
-        userName: 'test',
-        password: 'test'
+        userName: 'admin',
+        password: 'admin'
       },
       rules: {
         userName: [
@@ -32,7 +32,11 @@ export default {
               password: this.form.password
             })
             .then(res => {
-              console.log(res)
+              if (res.data[0]) {
+                this.$router.push({
+                  name: 'real-time'
+                })
+              }
             })
             .catch(() => {
               this.$Message.error({

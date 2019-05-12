@@ -13,11 +13,7 @@
         anchor="BMAP_ANCHOR_TOP_LEFT"
       ></bm-map-type>
       <bm-scale anchor="BMAP_ANCHOR_BOTTOM_LEFT"></bm-scale>
-      <bm-geolocation
-        anchor="BMAP_ANCHOR_BOTTOM_RIGHT"
-        :showAddressBar="true"
-        :autoLocation="true"
-      ></bm-geolocation>
+      <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true"></bm-geolocation>
       <bm-panorama></bm-panorama>
       <bm-marker
         v-for="(point,index) in points"
@@ -25,10 +21,9 @@
         :position="{lng:point.lng,lat:point.lat}"
         animation="BMAP_ANIMATION_DROP"
         :title="point.id"
-        :icon="{url:config.url + '/img/online.png',size: {width: 32, height: 32}}"
+        :icon="{url:config.url + '/online.png',size: {width: 32, height: 32}}"
         @click="handleInfoWindow(point)"
-      >
-      </bm-marker>
+      ></bm-marker>
       <bm-info-window
         :position="{lng: pointInfo.lng, lat: pointInfo.lat}"
         :show="show"
@@ -36,38 +31,23 @@
         @open="infoWindowOpen"
         :title="'姓名：'+pointInfo.name"
         :offset="{width:3,height:-15}"
-      ><span class="point-span">
+      >
+        <span class="point-span">
           <Row>
-            <Col>
-            时间：{{pointInfo.time}}
-            </Col>
+            <Col>时间：{{pointInfo.time}}</Col>
           </Row>
           <Row>
-            <Col span="16">
-            设备号：{{pointInfo.id}}
-            </Col>
-            <Col span="8">
-            定位：{{pointInfo.qf}}
-            </Col>
+            <Col span="16">设备号：{{pointInfo.id}}</Col>
+            <Col span="8">定位：{{pointInfo.qf}}</Col>
           </Row>
           <Row>
-            <Col span="12">
-            经度：{{pointInfo.lng}}
-            </Col>
-            <Col span="12">
-            纬度：{{pointInfo.lat}}
-            </Col>
+            <Col span="12">经度：{{pointInfo.lng}}</Col>
+            <Col span="12">纬度：{{pointInfo.lat}}</Col>
           </Row>
           <Row>
-            <Col span="8">
-            高度：{{pointInfo.alt}}
-            </Col>
-            <Col span="8">
-            速度：{{pointInfo.speed}}
-            </Col>
-            <Col span="8">
-            方向：{{pointInfo.track_true}}
-            </Col>
+            <Col span="8">高度：{{pointInfo.alt}}</Col>
+            <Col span="8">速度：{{pointInfo.speed}}</Col>
+            <Col span="8">方向：{{pointInfo.track_true}}</Col>
           </Row>
         </span>
       </bm-info-window>
