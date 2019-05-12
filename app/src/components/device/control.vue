@@ -2,59 +2,22 @@
   <div class="device-control">
     <Row>
       <Col span="8">
-      <Poptip
-        confirm
-        title="是否确定修改信息?"
-        @on-ok="toAdd"
-        style="text-align: left;"
-      >
-        <Button
-          type="success"
-          ghost
-          icon="md-add"
-        >
-          添加设备
-        </Button>
-      </Poptip>
+        <Poptip confirm title="是否确定修改信息?" @on-ok="toAdd" style="text-align: left;">
+          <Button type="success" ghost icon="md-add">添加设备</Button>
+        </Poptip>
       </Col>
       <Col span="8">
-      <Poptip
-        confirm
-        title="是否确定修改信息?"
-        @on-ok="toUpdate"
-        style="text-align: left;"
-      >
-        <Button
-          type="warning"
-          ghost
-          icon="ios-create"
-        >
-          修改参数
-        </Button>
-      </Poptip>
+        <Poptip confirm title="是否确定修改信息?" @on-ok="toUpdate" style="text-align: left;">
+          <Button type="warning" ghost icon="ios-create">修改参数</Button>
+        </Poptip>
       </Col>
       <Col span="8">
-      <Poptip
-        confirm
-        title="是否确定删除此设备?"
-        @on-ok="toDelete"
-        style="text-align: left;"
-      >
-        <Button
-          type="error"
-          ghost
-          icon="md-trash"
-        >
-          删除设备
-        </Button>
-      </Poptip>
+        <Poptip confirm title="是否确定删除此设备?" @on-ok="toDelete" style="text-align: left;">
+          <Button type="error" ghost icon="md-trash">删除设备</Button>
+        </Poptip>
       </Col>
     </Row>
-    <Spin
-      size="large"
-      fix
-      v-if="loading"
-    ></Spin>
+    <Spin size="large" fix v-if="loading"></Spin>
   </div>
 </template>
 
@@ -83,7 +46,7 @@ export default {
         feathersClient
           .service("device")
           .create(this.selected)
-          .then(res => {
+          .then(() => {
             this.loading = false;
             this.listAdd(this.selected);
             this.$Message.success({
@@ -143,7 +106,7 @@ export default {
         feathersClient
           .service("device")
           .patch(this.selected.id, this.selected)
-          .then(res => {
+          .then(() => {
             this.loading = false;
             this.listUpdate(this.selected);
             this.$Message.success({

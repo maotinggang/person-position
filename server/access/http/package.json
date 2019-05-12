@@ -2,7 +2,7 @@
   "name": "http",
   "description": "person position",
   "version": "0.0.0",
-  "homepage": "",
+  "homepage": "http://localhost",
   "main": "src",
   "keywords": [
     "feathers"
