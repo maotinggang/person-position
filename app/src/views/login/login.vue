@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable -->
   <div class="login">
     <Card class="login-card" icon="md-log-in" title="欢迎登录" :bordered="false">
       <Form ref="loginForm" :model="form" :rules="rules" @keydown.enter.native="handleSubmit">

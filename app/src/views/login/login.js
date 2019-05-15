@@ -2,10 +2,9 @@ import feathersClient from '@/api/feathersClient'
 export default {
   data() {
     return {
-      // TODO for test
       form: {
-        userName: 'admin',
-        password: 'admin'
+        userName: '',
+        password: ''
       },
       rules: {
         userName: [
@@ -15,12 +14,11 @@ export default {
       }
     }
   },
-  // TODO for test
-  mounted() {
-    this.$nextTick(() => {
-      this.handleSubmit()
-    })
-  },
+  // mounted() {
+  //   this.$nextTick(() => {
+  //     this.handleSubmit()
+  //   })
+  // },
   methods: {
     handleSubmit() {
       this.$refs.loginForm.validate(valid => {

@@ -1,3 +1,1 @@
-cd /d pm2
-call http-start.bat
-call tcp-start.bat
+pm2 start ecosystem.json

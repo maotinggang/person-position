@@ -1,0 +1,33 @@
+{
+  "apps": [
+    {
+      "name": "pp-http",
+      "watch": true,
+      "ignore_watch": ["node_modules", "logs", "test", "doc"],
+      "script": "./http/src",
+      "instances": "max",
+      "exec_mode": "cluster",
+      "instance_var": "INSTANCE_ID",
+      "error_file": "./logs/http/err.log",
+      "out_file": "./logs/http/out.log",
+      "log_date_format": "YYYY-MM-DD HH:mm:ss",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_CONFIG_DIR": "./http/config"
+      }
+    },
+    {
+      "name": "pp-tcp",
+      "watch": true,
+      "ignore_watch": ["node_modules", "logs", "test", "doc"],
+      "script": "./tcp",
+      "instances": "max",
+      "exec_mode": "cluster",
+      "instance_var": "INSTANCE_ID",
+      "error_file": "./logs/tcp/err.log",
+      "out_file": "./logs/tcp/out.log",
+      "log_date_format": "YYYY-MM-DD HH:mm:ss",
+      "env_production": { "NODE_ENV": "production" }
+    }
+  ]
+}

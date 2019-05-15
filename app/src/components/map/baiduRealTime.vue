@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable -->
   <div>
     <baidu-map
       class="bm-view"
@@ -21,7 +22,7 @@
         :position="{lng:point.lng,lat:point.lat}"
         animation="BMAP_ANIMATION_DROP"
         :title="point.id"
-        :icon="{url:config.url + '/online.png',size: {width: 32, height: 32}}"
+        :icon="icon"
         @click="handleInfoWindow(point)"
       ></bm-marker>
       <bm-info-window
@@ -58,8 +59,6 @@
 <script>
 import collection from "lodash/collection";
 import { EventBus } from "@/lib/event";
-import config from "@/config/http.json";
-// import dateTime from "date-time";
 import feathersClient from "@/api/feathersClient";
 export default {
   props: {
@@ -75,7 +74,10 @@ export default {
       points: [],
       show: false,
       pointInfo: "",
-      config: config
+      icon: {
+        url: `http://${document.location.host}/img/online.png`,
+        size: { width: 32, height: 32 }
+      }
     };
   },
   computed: {},

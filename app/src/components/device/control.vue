@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable -->
   <div class="device-control">
     <Row>
       <Col span="8">
@@ -76,7 +77,7 @@ export default {
         feathersClient
           .service("device")
           .remove(this.selected.id)
-          .then(res => {
+          .then(() => {
             this.loading = false;
             this.listDelete(this.selected.id);
             this.$Message.success({

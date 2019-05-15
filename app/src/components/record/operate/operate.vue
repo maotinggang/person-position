@@ -21,6 +21,8 @@
         <Button type="primary" size="small" ghost @click="select">查询</Button>
         <!-- <Button style="margin-left: 20px" type="success" size="small" ghost @click="exportCsv">导出</Button> -->
         <Button style="margin-left: 20px" type="primary" size="small" ghost @click="play">播放</Button>
+        <Button style="margin-left: 20px" type="success" size="small" ghost @click="pause">暂停</Button>
+        <!-- <Button style="margin-left: 20px" type="warning" size="small" ghost @click="stop">停止</Button> -->
         <Button style="margin-left: 20px" type="error" size="small" ghost @click="clear">清除</Button>
       </div>
     </Form>
@@ -35,8 +37,7 @@ export default {
   data() {
     return {
       formItem: {
-        // TODO test
-        datetime: { start: "2019-04-02 19:19:19", end: "2019-04-02 19:20:19" },
+        datetime: { start: "", end: "" },
         slider: 1
       },
       trackData: []
@@ -102,15 +103,21 @@ export default {
         });
       }
     },
-    exportCsv() {
-      EventBus.$emit("history-exportCsv");
-    },
+    // exportCsv() {
+    //   EventBus.$emit("history-exportCsv");
+    // },
     clear() {
       this.clearHistoryList();
       EventBus.$emit("history-clear");
     },
     play() {
       EventBus.$emit("history-play");
+    },
+    stop() {
+      EventBus.$emit("history-stop");
+    },
+    pause() {
+      EventBus.$emit("history-pause");
     },
     getPosition(id, start, end) {
       feathersClient
