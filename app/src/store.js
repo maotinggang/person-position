@@ -12,6 +12,7 @@ export default new Vuex.Store({
     checked: [],
     historyList: [],
     config: {},
+    playSpeed: 1000,
     polylineControl: { start: 0, end: 0 }
   },
   mutations: {
@@ -49,6 +50,9 @@ export default new Vuex.Store({
     },
     clearHistoryList(state) {
       state.historyList = []
+    },
+    playSpeed(state, value) {
+      state.playSpeed = value * 200
     },
     getConfig(state, data) {
       state.config = data

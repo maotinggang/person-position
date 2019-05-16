@@ -17,6 +17,18 @@
           v-model="formItem.datetime.end"
         ></DatePicker>
       </FormItem>
+      <FormItem label="播放速度" style="margin:2px 2px;">
+        <Slider
+          v-model="formItem.slider"
+          :step="1"
+          show-stops
+          input-size="small"
+          @on-change="sliderChange"
+          @on-input="sliderChange"
+          :min="1"
+          :max="10"
+        ></Slider>
+      </FormItem>
       <div style="margin:5px 0 5px 0;text-align: center;">
         <Button type="primary" size="small" ghost @click="select">查询</Button>
         <!-- <Button style="margin-left: 20px" type="success" size="small" ghost @click="exportCsv">导出</Button> -->
@@ -38,7 +50,7 @@ export default {
     return {
       formItem: {
         datetime: { start: "", end: "" },
-        slider: 1
+        slider: 5
       },
       trackData: []
     };
@@ -55,8 +67,12 @@ export default {
       "clearHistoryList",
       "setPolylineControlEnd",
       "setPolylineControlStart",
-      "setPolylineControl"
+      "setPolylineControl",
+      "playSpeed"
     ]),
+    sliderChange(value) {
+      this.playSpeed(value);
+    },
     select() {
       let checked = this.$store.state.checked;
       if (!checked[0]) {

@@ -49,15 +49,15 @@ export default {
           align: "center"
         }
       ],
-      tableheight: window.innerHeight - 225
+      tableheight: window.innerHeight - 265
     };
   },
   created() {
     window.onresize = () => {
-      this.tableheight = window.innerHeight - 225;
+      this.tableheight = window.innerHeight - 265;
     };
     window.onload = () => {
-      this.tableheight = window.innerHeight - 225;
+      this.tableheight = window.innerHeight - 265;
     };
   },
   computed: {

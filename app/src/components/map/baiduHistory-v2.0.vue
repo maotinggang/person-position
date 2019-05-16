@@ -18,7 +18,7 @@
       <bm-panorama></bm-panorama>
       <bm-polyline
         v-if="showLine"
-        :path="path"
+        :path="historyList"
         stroke-color="red"
         :stroke-opacity="1"
         :stroke-weight="3"
@@ -28,7 +28,7 @@
         :path="path"
         :icon="iconPerson"
         :play="play"
-        :speed="speed"
+        :speed="playSpeed"
         @start="start"
         @stop="stop"
         @pause="pause"
@@ -102,8 +102,7 @@ export default {
         url: `http://${document.location.host}/img/start.png`,
         size: { width: 48, height: 48 },
         opts: { anchor: { width: 24, height: 40 } }
-      },
-      speed: 2000
+      }
     };
   },
   mounted() {
@@ -165,13 +164,25 @@ export default {
     }
   },
   computed: {
-    ...mapState(["historyList"]),
+    ...mapState(["historyList", "playSpeed"]),
     path() {
-      let path = [];
-      collection.forEach(this.historyList, value => {
-        if (value) path.push({ lng: value.lng, lat: value.lat });
-      });
-      return path;
+      let temp = [];
+      let length = this.historyList.length;
+      if (length) {
+        let count = Math.ceil(this.playSpeed / 400);
+        collection.forEach(this.historyList, (value, key) => {
+          // 路书播放不完整bug，减少点数避免
+          if (key % count == 0) temp.push({ lng: value.lng, lat: value.lat });
+        });
+        // 最后一点
+        if ((length - 1) % count != 0) {
+          temp.push({
+            lng: this.historyList[length - 1].lng,
+            lat: this.historyList[length - 1].lat
+          });
+        }
+      }
+      return temp;
     }
   }
 };
