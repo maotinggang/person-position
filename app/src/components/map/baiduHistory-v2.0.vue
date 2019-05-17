@@ -169,17 +169,24 @@ export default {
       let temp = [];
       let length = this.historyList.length;
       if (length) {
-        let count = Math.ceil(this.playSpeed / 400);
-        collection.forEach(this.historyList, (value, key) => {
-          // 路书播放不完整bug，减少点数避免
-          if (key % count == 0) temp.push({ lng: value.lng, lat: value.lat });
-        });
-        // 最后一点
-        if ((length - 1) % count != 0) {
-          temp.push({
-            lng: this.historyList[length - 1].lng,
-            lat: this.historyList[length - 1].lat
+        if (this.playSpeed * length < 250000) {
+          // 不进行采样
+          collection.forEach(this.historyList, (value, key) => {
+            temp.push({ lng: value.lng, lat: value.lat });
           });
+        } else {
+          let count = Math.ceil(this.playSpeed / 400);
+          collection.forEach(this.historyList, (value, key) => {
+            // 路书播放不完整bug，减少点数避免
+            if (key % count == 0) temp.push({ lng: value.lng, lat: value.lat });
+          });
+          // 最后一点
+          if ((length - 1) % count != 0) {
+            temp.push({
+              lng: this.historyList[length - 1].lng,
+              lat: this.historyList[length - 1].lat
+            });
+          }
         }
       }
       return temp;
